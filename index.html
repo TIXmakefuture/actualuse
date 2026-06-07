@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>重装上阵 · 玩家社区</title>
+    <title>重装上阵·玩家社区</title>
     <style>
         * {
             margin: 0;
@@ -37,7 +37,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 1rem;
-            padding: 1rem 1.5rem;
+            padding: 0.8rem 1.5rem;
             margin-bottom: 1.5rem;
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
@@ -55,7 +55,7 @@
             align-items: center;
             gap: 12px;
             background: rgba(0,0,0,0.03);
-            padding: 0.4rem 1rem;
+            padding: 0.3rem 1rem;
             border-radius: 40px;
         }
         .coin-balance {
@@ -320,7 +320,7 @@
             color: #8e8e93;
         }
 
-        /* AI 悬浮球 & 遮罩（浅色风格） */
+        /* AI 悬浮球 */
         .ai-float-btn {
             position: fixed;
             right: 20px;
@@ -339,20 +339,62 @@
             z-index: 9999;
             transition: 0.2s;
         }
+
+        /* AI 流光动画 (浅色适配版) */
         .ai-mask {
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(12px);
             z-index: 10001;
             opacity: 0;
             pointer-events: none;
-            transition: 0.3s;
+            transition: opacity 0.4s ease;
         }
         .ai-mask.show {
             opacity: 1;
             pointer-events: auto;
         }
+        .ai-full-flash {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, #007aff, #5856d6, #ff2d55, #5ac8fa, #007aff);
+            background-size: 400% 400%;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .ai-mask.show .ai-full-flash {
+            animation: fullStream 1.2s ease-out forwards;
+        }
+        @keyframes fullStream {
+            0% { background-position: 0% 50%; opacity: 0.25; }
+            50% { background-position: 100% 50%; opacity: 0.45; }
+            100% { background-position: 200% 50%; opacity: 0; }
+        }
+
+        .ai-light-ring {
+            position: absolute;
+            inset: 12px;
+            border-radius: 28px;
+            background: linear-gradient(120deg, #007aff, #5856d6, #ff2d55, #5ac8fa, #007aff);
+            background-size: 300% 300%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            padding: 3px;
+            animation: aiAppleFlow 4s ease-in-out infinite;
+            filter: blur(6px);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        @keyframes aiAppleFlow {
+            0% { background-position: 0% 50%; opacity: 0.5; }
+            50% { background-position: 100% 50%; opacity: 1; }
+            100% { background-position: 0% 50%; opacity: 0.5; }
+        }
+
         .ai-dialog-wrap {
             position: absolute;
             left: 50%;
@@ -361,11 +403,13 @@
             opacity: 0;
             width: 90%;
             max-width: 450px;
-            transition: 0.3s;
-            background: rgba(255,255,255,0.95);
+            transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 32px;
             padding: 1rem;
             backdrop-filter: blur(20px);
+            z-index: 2;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.1);
         }
         .ai-mask.show .ai-dialog-wrap {
             transform: translateX(-50%) scale(1);
@@ -391,6 +435,7 @@
             border-radius: 40px;
             border: 0.5px solid rgba(0,0,0,0.1);
             background: white;
+            font-size: 0.85rem;
         }
         .ai-input-box button {
             background: #007aff;
@@ -399,54 +444,16 @@
             border-radius: 40px;
             color: white;
             font-weight: 500;
+            cursor: pointer;
         }
         .close-ai {
             position: absolute;
-            top: 10px;
+            top: 12px;
             right: 16px;
             font-size: 24px;
             cursor: pointer;
             color: #8e8e93;
-        }
-        /* AI 流光动画 (浅色适配版) */
-        .ai-full-flash {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(120deg, #007aff, #5856d6, #ff2d55, #5ac8fa, #007aff);
-            background-size: 400% 400%;
-            opacity: 0;
-            pointer-events: none;
-            z-index: 0;
-        }
-        .ai-mask.show .ai-full-flash {
-            animation: fullStream 1.2s ease-out forwards;
-        }
-        @keyframes fullStream {
-            0% { background-position: 0% 50%; opacity: 0.25; }
-            50% { background-position: 100% 50%; opacity: 0.4; }
-            100% { background-position: 200% 50%; opacity: 0; }
-        }
-
-        .ai-light-ring {
-            position: absolute;
-            inset: 12px;
-            border-radius: 28px;
-            background: linear-gradient(120deg, #007aff, #5856d6, #ff2d55, #5ac8fa, #007aff);
-            background-size: 300% 300%;
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            padding: 3px;
-            animation: aiAppleFlow 4s ease-in-out infinite;
-            filter: blur(6px);
-            opacity: 0.7;
-            pointer-events: none;
-        }
-        @keyframes aiAppleFlow {
-            0% { background-position: 0% 50%; opacity: 0.5; }
-            50% { background-position: 100% 50%; opacity: 1; }
-            100% { background-position: 0% 50%; opacity: 0.5; }
+            z-index: 3;
         }
     </style>
 </head>
@@ -541,21 +548,23 @@
         <div class="card glass">
             <h3>战术交流</h3>
             <p>分享技巧、地图理解。</p>
-            <button class="btn btn-secondary" onclick="alert('群内战术讨论')">交流战术</button>
+            <button class="btn btn-secondary" onclick="alert('抖音群664859491263交流战术')">交流战术</button>
         </div>
     </div>
 
     <div class="update-notice glass" id="update">
         <h3>版本更新公告</h3>
-        <div class="update-item"><div class="update-time">2026.06.06 · 全新视觉</div><p>社区界面改为浅色毛玻璃风格，体验更清爽。</p></div>
+        <div class="update-item"><div class="update-time">2026.06.07 · AI流光动画回归</div><p>AI助手点击后全屏跑马灯流光+彩色光晕，炫酷交互。</p></div>
+        <div class="update-item"><div class="update-time">2026.06.06 · 浅色毛玻璃风格</div><p>界面全面适配灰白背景，清爽简洁。</p></div>
         <div class="update-item"><div class="update-time">2026.06.02 · 安全存档码系统</div><p>支持防篡改存档码，跨设备同步晶核。</p></div>
-        <div class="update-item"><div class="update-time">2026.05.08 · 交友/悬赏令</div><p>新增交友栏和悬赏令板块。</p></div>
     </div>
 
     <footer id="about">© 2026 重装上阵玩家社区 · 热爱永不落幕</footer>
 
     <div class="ai-float-btn" id="aiBtn" onclick="openAI()">🤖</div>
     <div class="ai-mask" id="aiMask">
+        <div class="ai-full-flash"></div>
+        <div class="ai-light-ring"></div>
         <div class="close-ai" onclick="closeAI()">×</div>
         <div class="ai-dialog-wrap">
             <div class="ai-chat-history" id="chatHistory"></div>
@@ -655,7 +664,7 @@
     }
     document.getElementById('exportCodeBtn').onclick = () => {
         let code=generateSecureSaveCode(crystalCoin);
-        alert('存档码已生成:\n'+code+'\n已复制');
+        alert('存档码已生成:\n'+code+'\n已复制到剪贴板');
         navigator.clipboard.writeText(code);
     };
     let importArea=document.getElementById('importArea'), importOpen=false;
@@ -691,7 +700,7 @@
         }
     };
 
-    // AI
+    // AI 助手（含流光动画）
     function openAI(){ document.getElementById('aiMask').classList.add('show'); }
     function closeAI(){ document.getElementById('aiMask').classList.remove('show'); }
     function getAIReply(txt){
@@ -700,6 +709,7 @@
         if(kw.includes('组队')) return '加抖音群664859491263，组队开黑超活跃！';
         if(kw.includes('存档码')) return '导出/导入功能支持安全存档码，跨设备同步晶核。';
         if(kw.includes('晶核')) return '晶核签到获取，也可用存档码转移。';
+        if(kw.includes('签到')) return '每天签到可以领取20晶核，记得来哦。';
         return '我是社区AI助手，可解答机甲、组队、存档码等问题。';
     }
     function sendAIMsg(){
