@@ -408,6 +408,46 @@
             cursor: pointer;
             color: #8e8e93;
         }
+        /* AI 流光动画 (浅色适配版) */
+        .ai-full-flash {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, #007aff, #5856d6, #ff2d55, #5ac8fa, #007aff);
+            background-size: 400% 400%;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .ai-mask.show .ai-full-flash {
+            animation: fullStream 1.2s ease-out forwards;
+        }
+        @keyframes fullStream {
+            0% { background-position: 0% 50%; opacity: 0.25; }
+            50% { background-position: 100% 50%; opacity: 0.4; }
+            100% { background-position: 200% 50%; opacity: 0; }
+        }
+
+        .ai-light-ring {
+            position: absolute;
+            inset: 12px;
+            border-radius: 28px;
+            background: linear-gradient(120deg, #007aff, #5856d6, #ff2d55, #5ac8fa, #007aff);
+            background-size: 300% 300%;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            padding: 3px;
+            animation: aiAppleFlow 4s ease-in-out infinite;
+            filter: blur(6px);
+            opacity: 0.7;
+            pointer-events: none;
+        }
+        @keyframes aiAppleFlow {
+            0% { background-position: 0% 50%; opacity: 0.5; }
+            50% { background-position: 100% 50%; opacity: 1; }
+            100% { background-position: 0% 50%; opacity: 0.5; }
+        }
     </style>
 </head>
 <body>
